@@ -10,6 +10,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 from selenium.webdriver.common.keys import Keys
 from lxml import etree
+import requests
+import urllib
+
 
 siteLink = "https://www.imdb.com/chart/top/?ref_=nv_mv_250"
 
@@ -20,6 +23,7 @@ dom = etree.HTML(str(soup))
 movieCoverLink = []
 movieTitle = []
 movieYearLink = []
+movieList = open('movieTitle.txt', 'w')
 
 for i in range(1, 251):
     title = dom.xpath("/html/body/div[2]/main/div/div[3]/section/div/div[2]/div/ul/li[%s]/div[2]/div/div/div[1]/a/h3" %i)[0].text
@@ -28,9 +32,7 @@ for i in range(1, 251):
     movieTitle.append(title)
     movieCoverLink.append(moviePoster)
     movieYearLink.append(movieYear)
+    movieList.write(title)
 
-print(movieTitle)
-print(movieCoverLink)
-print(movieYearLink)
 
 time.sleep(2000)
